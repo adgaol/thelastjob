@@ -167,7 +167,7 @@ public class FXMLDocumentController implements Initializable {
         auxLista=Arrays.asList(cadenaPend[1].split(" "));
 
         entrada.construirCadena(auxLista);
-        entrada.activarListener();
+        entrada.activarListener(stepsList,contador,this);
 
 
         this.colocarEntrada();
@@ -582,4 +582,23 @@ public class FXMLDocumentController implements Initializable {
         posicionTerm=0;
        
     }
+    /**
+ * Go to the step indicate
+ * @param contador
+ * step
+ * @param id 
+ * id of the step
+ */
+    public void irPaso(int contador,int id){
+        
+        if(contador<id){
+            for(int i=contador;i< id;i++){
+                construirArbol();
+            }
+        }else{
+                   for(int i=contador;i>id;i--){
+                        eliminar();
+                    } 
+                 }
+        }
         }

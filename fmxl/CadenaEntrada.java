@@ -353,6 +353,42 @@ public class CadenaEntrada {
                     
 		});
       }
+      /**
+   * activate the listener to change the step when click the string
+   */  
+     public void activarListener(List<Informacion> listaPasosI,int contador,FXMLDocumentController app){
+           graphComponent.setToolTips(true);
+		
+		graphComponent.getGraphControl().addMouseListener(new MouseAdapter()
+		{
+		
+			public void mouseReleased(MouseEvent e)
+			{
+                                //app.getMenu().getBarraMenu().requestFocusInWindow();
+				Object cell = graphComponent.getCellAt(e.getX(), e.getY());
+				String leido;
+                                int numeroPaso=0;
+                                Character caracter;
+				if (cell != null){
+                                    List<Informacion> listaPasos=listaPasosI;
+                                    for(Informacion info:listaPasos){ 
+                                         numeroPaso++;
+                                        leido=info.getLeido();
+                                        if(!leido.equals("")){
+                                            caracter=leido.charAt(leido.length()-1);
+                                            if(graph.getLabel(cell).equals(caracter.toString())){
+
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    System.out.print(cell);
+                                  
+                                  app.irPaso(app.contador,numeroPaso);
+				}         
+			}                    
+		});
+      }
     
 /**
  * 
