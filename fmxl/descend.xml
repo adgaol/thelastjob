@@ -1,0 +1,481 @@
+
+<!--?xml version="1.0" encoding="UTF-8"?-->
+ 
+     <tables>
+        <espec nombre="Especificación del XML">
+            <traductor>
+                <tipo>Descendente</tipo>
+                
+         <regla  id="R1">
+             <accionSemantica pos="2">
+                A.valor = B.resul;
+                 <intermedio>si</intermedio>
+             </accionSemantica>
+             <accionSemantica pos="4">
+                print(A. resul)
+             </accionSemantica>
+           <simbolo>               
+               <valor>EXP::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>B</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>A</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>;</valor>
+               <terminal>true</terminal>
+           </simbolo>
+         </regla>
+         
+         <regla  id="R2">
+             <accionSemantica pos="3">
+                A1.valor = A.valor + B.resul;
+                 <intermedio>si</intermedio>
+             </accionSemantica>
+             
+              <accionSemantica pos="4">
+                A.resul= A1.resul;
+             </accionSemantica>
+             
+           <simbolo>
+               <valor>A::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>+</valor>
+               <terminal>true</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>B</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>A1</valor>
+               <terminal>false</terminal>
+           </simbolo>
+         </regla>
+          
+        <regla id="R3">
+            <accionSemantica pos="2">
+                A.resul = A.valor;
+             </accionSemantica>
+           <simbolo>
+               <valor>|</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>λ</valor>
+               <terminal>true</terminal>
+           </simbolo>           
+           
+         </regla>   
+         
+          <regla id="R4">
+              <accionSemantica pos="2">
+                C.valor = num.vlex;
+                  <intermedio>si</intermedio>
+             </accionSemantica>
+             <accionSemantica pos="3">
+                B.resul = C.resul;
+             </accionSemantica>
+           <simbolo>
+               <valor>B::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>num</valor>
+               <terminal>true</terminal>
+           </simbolo>   
+           
+           <simbolo>
+               <valor>C</valor>
+               <terminal>false</terminal>
+           </simbolo>      
+         </regla>
+         
+          <regla id="R5">
+               <accionSemantica pos="3">
+                  C1.valor = C.valor * num.vlex;
+                   <intermedio>si</intermedio>
+             </accionSemantica>
+              <accionSemantica pos="4">
+                C.resul = C1.resul;
+             </accionSemantica>
+           <simbolo>
+               <valor>C::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           <simbolo>
+               <valor>*</valor>
+               <terminal>true</terminal>
+           </simbolo>  
+           <simbolo>
+               <valor>num</valor>
+               <terminal>true</terminal>
+           </simbolo>   
+           
+           <simbolo>
+               <valor>C1</valor>
+               <terminal>false</terminal>
+           </simbolo> 
+          </regla>
+          <regla id="R6">
+               <accionSemantica pos="2">
+                C.resul = C.valor;
+             </accionSemantica>
+           <simbolo>
+               <valor>|</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>λ</valor>
+               <terminal>true</terminal>
+           </simbolo>           
+           
+         </regla>                 
+            </traductor>
+            <cadena>
+                2 * 4 + 3
+            </cadena>
+            <arbol>
+                <num_nodos>17</num_nodos>
+                <altura>5</altura>
+                <nodo id="0">
+                    <elemento>EXP</elemento>
+                    <nivel>1</nivel>
+                    <terminal>false</terminal>               
+                </nodo>
+
+                <nodo id="1">
+                    <elemento>B</elemento>
+                    <nivel>2</nivel>
+                    <terminal>false</terminal>               
+                </nodo>
+                <nodo id="8">
+                    <elemento>A</elemento>
+                    <nivel>2</nivel> 
+                    <terminal>false</terminal>              
+                </nodo>
+                <nodo id="16">
+                    <elemento>;</elemento>
+                    <nivel>2</nivel>
+                    <terminal>true</terminal>               
+                </nodo>
+
+                <nodo id="2">
+                    <elemento>num</elemento>
+                    <nivel>3</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="3">
+                    <elemento>C</elemento>
+                    <nivel>3</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+                <nodo id="9">
+                    <elemento>+</elemento>
+                    <nivel>3</nivel> 
+                    <terminal>true</terminal>
+                </nodo>           
+                <nodo id="10">
+                    <elemento>B</elemento>
+                    <nivel>3</nivel>
+                    <terminal>false</terminal> 
+                </nodo>
+                <nodo id="14">
+                    <elemento>A1</elemento>
+                    <nivel>3</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+
+                <nodo id="4">
+                    <elemento>*</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="5">
+                    <elemento>num</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="6">
+                    <elemento>C1</elemento>
+                    <nivel>4</nivel>
+                    <terminal>false</terminal> 
+                </nodo>
+                <nodo id="11">
+                    <elemento>num</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="12">
+                    <elemento>C</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+                <nodo id="7">
+                    <elemento>λ</elemento>
+                    <nivel>5</nivel>
+                    <terminal>true</terminal> 
+                </nodo>
+
+                <nodo id="13">
+                    <elemento>λ</elemento>
+                    <nivel>5</nivel>
+                    <terminal>true</terminal>  
+                </nodo>
+                <nodo id="15">
+                    <elemento>λ</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal> 
+                </nodo>
+            </arbol>
+
+            <contenido>
+                <paso id="0">
+                    <tipo> primero </tipo> 
+                    <nuevaRegla>no</nuevaRegla>               
+                    <cadena>
+                        <leido></leido>
+                        <pendiente>2 * 4 + 3</pendiente>
+                    </cadena>
+                    <elemento>EXP</elemento>               
+                    <valor></valor>
+
+                </paso>
+
+                <paso id="1">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R1">EXP::= B A ;
+                        <valores>A.valor=8</valores>
+                         <valores>print(11)</valores>
+                        
+                    </nuevaRegla>
+                    <sizeRegla>9</sizeRegla>
+                    <cadena>
+                        <leido></leido>
+                        <pendiente>2 * 4 + 3</pendiente>
+                    </cadena>
+                    <elemento>B 0</elemento>
+                   <valor>B.resul=8</valor>
+                </paso>
+                
+                 
+                <paso id="2">
+                    <tipo> derivacion </tipo>
+                     <nuevaRegla refRegla="R4">B::= num C
+                          <valores>C.valor=4</valores>
+                         <valores>B.resul=8</valores>
+                     </nuevaRegla>
+                     <sizeRegla>2</sizeRegla>                    
+                    <cadena>
+                        <leido>2</leido>
+                        <pendiente>* 4 + 3</pendiente>
+                    </cadena>
+                    <elemento>num 1</elemento>
+                    <valor>num.vlex=2</valor>
+                </paso>
+                
+                 <paso id="3">
+                    <tipo> despDes </tipo>
+                     <nuevaRegla>no</nuevaRegla>                                       
+                    <cadena>
+                        <leido>2</leido>
+                        <pendiente>* 4 + 3</pendiente>
+                    </cadena>
+                    <elemento>C 1</elemento>
+                    <valor>C.valor=2 C.resul=8</valor>
+                </paso>
+                
+                 <paso id="4">
+                    <tipo> derivacion </tipo>
+                     <nuevaRegla refRegla="R5"> C::= * num C1
+                        <valores>C.valor=2*4->8</valores>
+                         <valores>C.resul=8</valores>
+                     </nuevaRegla>  
+                     <sizeRegla>4</sizeRegla>                      
+                    <cadena>
+                        <leido>2 *</leido>
+                        <pendiente>4 + 3</pendiente>
+                    </cadena>
+                    <elemento>* 3</elemento>
+                    <valor></valor>
+                </paso>
+                 <paso id="5">
+                    <tipo> despDes </tipo>
+                     <nuevaRegla>no</nuevaRegla>                                           
+                    <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>
+                    <elemento>num 3</elemento>
+                    <valor>num.vlex=4</valor>
+                </paso>
+                 <paso id="6">
+                    <tipo> despDes </tipo>
+                     <nuevaRegla>no</nuevaRegla>                     
+                    <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>
+                    <elemento>C1 3</elemento>
+                    <valor>C.valor=8 C.resul=8</valor>
+                </paso>
+
+                <paso id="7">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R6">C::= λ
+                        <valores>C.resul=8</valores>                         
+                    </nuevaRegla>
+                    <sizeRegla>4</sizeRegla>
+                    <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>
+                    <elemento>λ 6</elemento>
+                    <valor></valor>
+                </paso>
+                 <paso id="8">
+                    <tipo>despDes</tipo>
+                    <nuevaRegla>no</nuevaRegla>                    
+                    <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>
+                    <elemento>A 0</elemento>
+                   <valor>
+                       A.valor=2
+                       A.resul=11
+                   </valor>
+                </paso>
+                  
+
+                <paso id="9">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R2">A::= + B A1
+                         <valores>A1.valor=8+3->11</valores>
+                         <valores>A.resul=11</valores>
+                    </nuevaRegla>
+                    <sizeRegla>8</sizeRegla>
+                      <cadena>
+                        <leido>2 * 4 +</leido>
+                        <pendiente>3</pendiente>
+                    </cadena>  
+                    <elemento>+ 8</elemento> 
+                    <valor></valor>  
+                </paso>
+                 <paso id="10">
+                    <tipo> despDes </tipo>
+                    <nuevaRegla>no</nuevaRegla>
+                      <cadena>
+                        <leido>2 * 4 +</leido>
+                        <pendiente>3</pendiente>
+                    </cadena>  
+                    <elemento>B 8</elemento> 
+                    <valor>B.resul=3</valor>  
+                </paso>
+                 
+                <paso id="11">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R4">B::= num C
+                         <valores>C.valor=3</valores>
+                         <valores>B.resul=3</valores>
+                    </nuevaRegla>
+                    <sizeRegla>7</sizeRegla>
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>num 10</elemento> 
+                    <valor>num.vlex=3</valor>
+                </paso>
+                
+                 <paso id="12">
+                    <tipo> despDes </tipo>
+                    <nuevaRegla>no</nuevaRegla>                    
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>C 10</elemento> 
+                    <valor>
+                        C.valor=3
+                        C.resul=3
+                    </valor> 
+
+                </paso>
+
+               
+
+                <paso id="13">
+                    <tipo> derivacion </tipo>
+                   <nuevaRegla refRegla="R6">C::= λ                        
+                         <valores>C.resul=3</valores>
+                   </nuevaRegla>
+                    <sizeRegla>7</sizeRegla>
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>λ 12</elemento>    
+                    <valor></valor>         
+                </paso>
+                
+                <paso id="14">
+                    <tipo> despDes </tipo>
+                    <nuevaRegla>no</nuevaRegla>                    
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>A1 8</elemento> 
+                    <valor>
+                        A1.valor=11
+                        A1.resul=11
+                    </valor>  
+                </paso>
+                
+                
+                 <paso id="15">
+                    <tipo> derivacion </tipo>
+                   <nuevaRegla refRegla="R3">A1::= λ                         
+                         <valores>A.resul=11</valores>
+                   </nuevaRegla>
+                   
+                    <sizeRegla>8</sizeRegla>
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>λ 14</elemento>    
+                    <valor></valor>         
+                </paso>
+
+                <paso id="16">
+                    <tipo> despDes </tipo>
+                    <nuevaRegla>no</nuevaRegla>                    
+                    <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>
+                    <elemento>; 0</elemento>
+                   <valor></valor>
+                </paso>
+            </contenido>
+        </espec>  
+
+</tables>

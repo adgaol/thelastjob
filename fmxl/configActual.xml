@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tables>
+  <config>
+    <tamLetras>
+      <arbol>10</arbol>
+      <traductor>13</traductor>
+      <cadena>20</cadena>
+    </tamLetras>
+    <colores>
+      <terminales>-ff66cd</terminales>
+      <noTerminales>-7d14e0</noTerminales>
+      <leido>FF1720</leido>
+      <pend>0000FF</pend>
+    </colores>
+    <zoom>3</zoom>
+  </config>
+</tables>

@@ -1,0 +1,15 @@
+<tables>
+    <config>
+    <tamLetras>
+        <arbol>10</arbol>
+        <traductor>13</traductor> 
+        <cadena>20</cadena>
+    </tamLetras>
+    <colores>
+        <terminales>FF5118</terminales>
+        <noTerminales>82EB20</noTerminales>
+         <leido>FF1720</leido>
+      <pend>0000FF</pend>
+    </colores>
+    </config>
+</tables>
