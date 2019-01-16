@@ -6,6 +6,7 @@
 package fmxl;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,12 +18,17 @@ import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javax.swing.SwingUtilities;
 
 /**
@@ -75,6 +81,16 @@ public class FXMLDocumentController implements Initializable {
     private List<List<Object>> listaReglas= new ArrayList<>();//list of inserted rules in translator
     private int numNodos;
     
+     @FXML
+        public void handleOpenConfiguration(ActionEvent event) throws IOException {
+            Parent root = FXMLLoader.load(getClass().getResource("FXMLDocumentConfig.fxml"));
+        
+        Scene scene = new Scene(root);
+        Stage configuration=new Stage();
+        configuration.setScene(scene);
+        configuration.show();
+
+        }
     @FXML
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
