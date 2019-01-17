@@ -38,6 +38,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.color;
 import javafx.stage.Stage;
 import javax.swing.SwingUtilities;
 
@@ -55,7 +57,23 @@ private ComboBox sizeFuenteTraduc;
 @FXML
 private ComboBox sizeFuenteCadena;
 @FXML
+private ComboBox fountTypeSemanticAct;
+@FXML
+private ComboBox sizeFountSemanticAct;
+@FXML
 private ColorPicker backgroundColorTerminals;
+@FXML
+private ColorPicker fontColorTerminals;
+@FXML
+private ColorPicker backgroundColorNoTerminals;
+@FXML
+private ColorPicker fontColorNoTerminals;
+@FXML
+private ColorPicker readPart;
+@FXML
+private ColorPicker pendPart;
+@FXML
+private ColorPicker colorFountSemanticAct;
 private Grafo arbolEjemplo;
 private int posYCadena=300;
 private int posYHijos=100;
@@ -70,10 +88,66 @@ private int incCadena=70;
 private ModificacionesTemp mT;
 private Configuracion lectConf;
 @FXML
-        public void handleChooseBackgroundColorTerminals(ActionEvent event) throws IOException {
+    public void handleChooseColor(ActionEvent event) throws IOException {
         ColorPicker e=(ColorPicker)event.getSource();
-        System.out.println(backgroundColorTerminals.getValue());
+        if(e.equals(backgroundColorTerminals)){
+            javafx.scene.paint.Color coo=backgroundColorTerminals.getValue();    
+            System.out.println(coo);        
+            mT.setColorTerminales(newColorSw(coo));
+            backgroundColorTerminals.setValue(backgroundColorTerminals.getValue());
+            modificarArbol();
         }
+        else if(e.equals(fontColorTerminals)){
+            javafx.scene.paint.Color coo=fontColorTerminals.getValue();   
+            System.out.println(coo);
+            mT.setColorLetraTerminales(newColorSw(coo));
+            fontColorTerminals.setValue(fontColorTerminals.getValue());
+            modificarArbol();   
+        }
+        else if(e.equals(fontColorNoTerminals)){
+            javafx.scene.paint.Color coo=fontColorNoTerminals.getValue();   
+            System.out.println(coo);
+            mT.setColorLetranTerminales(newColorSw(coo));
+            fontColorNoTerminals.setValue(fontColorNoTerminals.getValue());
+            modificarArbol();   
+        }
+        else if(e.equals(fontColorNoTerminals)){
+            javafx.scene.paint.Color coo=fontColorNoTerminals.getValue();   
+            System.out.println(coo);
+            mT.setColorLetranTerminales(newColorSw(coo));
+            fontColorNoTerminals.setValue(fontColorNoTerminals.getValue());
+            modificarArbol();   
+        }
+        else if(e.equals(backgroundColorNoTerminals)){
+            javafx.scene.paint.Color coo=backgroundColorNoTerminals.getValue();   
+            System.out.println(coo);
+            mT.setColornTerminales(newColorSw(coo));
+            backgroundColorNoTerminals.setValue(backgroundColorNoTerminals.getValue());
+            modificarArbol();   
+        }
+        else if(e.equals(pendPart)){
+            javafx.scene.paint.Color coo=pendPart.getValue();   
+            System.out.println(coo);
+            mT.setColorCadenaPendiente(newColorSw(coo));
+            pendPart.setValue(pendPart.getValue());
+            modificarArbol();   
+        }
+        else if(e.equals(readPart)){
+            javafx.scene.paint.Color coo=readPart.getValue();   
+            System.out.println(coo);
+            mT.setColorCadenaLeido(newColorSw(coo));
+            readPart.setValue(readPart.getValue());
+            modificarArbol();   
+        }
+        else if(e.equals(colorFountSemanticAct)){
+            javafx.scene.paint.Color coo=colorFountSemanticAct.getValue();   
+            System.out.println(coo);
+            mT.setColorAccSem(newColorSw(coo));
+            colorFountSemanticAct.setValue(colorFountSemanticAct.getValue());
+            modificarArbol();   
+        }
+        
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -151,7 +225,37 @@ private Configuracion lectConf;
                 modificarArbol();
             }    
         });
-    } 
+        ObservableList<Integer> optionsSizeLetraSemanticAct = FXCollections.observableArrayList( 8,10,13,15,18,20);       
+        sizeFountSemanticAct.setItems(optionsSizeLetraSemanticAct);
+        sizeFountSemanticAct.setValue(lectConf.getSizeAcciones());
+        sizeFountSemanticAct.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override 
+            public void changed(ObservableValue ov, Integer t, Integer t1) {
+                Integer val= (Integer)sizeFountSemanticAct.getValue();
+                mT.setSizeAcciones(val);                
+                modificarArbol();
+            }    
+        });
+        ObservableList<String> optionsFountType = FXCollections.observableArrayList( "Times new Roman","Arial","Calibri","Courier","Broadway","Informal Roman","Verdana");       
+        fountTypeSemanticAct.setItems(optionsFountType);
+        fountTypeSemanticAct.setValue(lectConf.getTipoLetra());
+        fountTypeSemanticAct.valueProperty().addListener(new ChangeListener<String>() {
+            @Override 
+            public void changed(ObservableValue ov, String t, String t1) {
+                String val=(String)fountTypeSemanticAct.getValue();
+                mT.setTipoLetra(val);                
+                modificarArbol();
+            }    
+        });
+        backgroundColorTerminals.setValue(newColorFX(lectConf.getColorTerminal()));
+        fontColorTerminals.setValue(newColorFX(lectConf.getLetraTerminal()));
+        backgroundColorNoTerminals.setValue(newColorFX(lectConf.getColorNoTerminal()));
+        fontColorNoTerminals.setValue(newColorFX(lectConf.getLetraNoTerminal()));
+        pendPart.setValue(newColorFX(lectConf.getColorPend()));
+        readPart.setValue(newColorFX(lectConf.getColorLeido()));
+        colorFountSemanticAct.setValue(newColorFX(lectConf.getColorAccSem()));
+        fountTypeSemanticAct.setValue(lectConf.getTipoLetra());
+    }
     /**
      * place the tree in the swing node
      * @param swingNode
@@ -358,5 +462,22 @@ private Configuracion lectConf;
         stylesheet.putCellStyle("MODACCIONES", style6);
 
     }
+ public javafx.scene.paint.Color newColorFX(String color){
+     int col=Integer.parseInt(color,16);
+             //Integer.parseInt(color);
+    Color color1=new Color(col);
+    double red=color1.getRed()/255.0;
+    double green=color1.getGreen()/255.0;
+    double blue=color1.getBlue()/255.0;
+    double opacity=color1.getAlpha()/255.0;
+    return new javafx.scene.paint.Color(red, green, blue, opacity);
+ }
+ public Color newColorSw(javafx.scene.paint.Color color){
  
+    float red=(float)(color.getRed());
+    float green=(float) (color.getGreen());
+    float blue=(float) (color.getBlue());
+   // float alpha=(float) (color.getOpacity()*255);
+    return new Color(red, green, blue);
+ }
         }
