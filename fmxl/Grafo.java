@@ -1925,6 +1925,22 @@ public class Grafo {
          listaAccionesInsertadas= new ArrayList<>();
        
      }
+     /**
+      * removed all grammar
+      */
+     public void eliminarGramatica(FicheroXML ficheroXML){ 
+         //app.setListaReglas(new ArrayList<>());
+         Object[] arrayGram=miGramatica.toArray();
+         eliminar(arrayGram);
+         eliminar(listaAccionesInsertadas.toArray());
+         rectangAccionSem= new HashMap<>(); 
+         this.listaDesplazados= new ArrayList<>();
+         for(int u=0; u<ficheroXML.getListaGramatica().size();u++){
+            listaDesplazados.add(0);
+        }
+         listaAccionesInsertadas= new ArrayList<>();
+       
+     }
     /**
      * 
      * @return the graph

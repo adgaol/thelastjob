@@ -74,6 +74,10 @@ private ColorPicker readPart;
 private ColorPicker pendPart;
 @FXML
 private ColorPicker colorFountSemanticAct;
+@FXML
+private javafx.scene.control.Button aceptButton;
+@FXML
+private javafx.scene.control.Button cancelButton;
 private Grafo arbolEjemplo;
 private int posYCadena=300;
 private int posYHijos=100;
@@ -88,6 +92,32 @@ private int incCadena=70;
 private ModificacionesTemp mT;
 private Configuracion lectConf;
 @FXML
+/**
+ * change the color of the elements using the ColorPickers
+ */
+    public void handleAcept(ActionEvent event) throws IOException {
+        
+        Configuracion conf = new Configuracion();
+        conf.guardarConfiguracion(".//config//configActual.xml",mT.getSizeLetraArbol(),mT.getSizeLetraTraductor(),mT.getSizeCadena(),Integer.toString(mT.getColorTerminales().getRGB(),16),Integer.toString(mT.getColornTerminales().getRGB(),16),Integer.toString(mT.getColorLetraTerminales().getRGB(),16),Integer.toString(mT.getColorLetranTerminales().getRGB(),16),Integer.toString(mT.getColorCadenaLeido().getRGB(),16),Integer.toString(mT.getColorCadenaPendiente().getRGB(),16),Integer.toString(mT.getColorAccSem().getRGB(),16),mT.getTipoLetra(),mT.getSizeAcciones(),50);
+        // get a handle to the stage
+        Stage stage = (Stage) aceptButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }
+  /**
+ * change the color of the elements using the ColorPickers
+ */
+    public void handleCancel(ActionEvent event) throws IOException {
+        
+        // get a handle to the stage
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }  
+@FXML
+/**
+ * change the color of the elements using the ColorPickers
+ */
     public void handleChooseColor(ActionEvent event) throws IOException {
         ColorPicker e=(ColorPicker)event.getSource();
         if(e.equals(backgroundColorTerminals)){
@@ -152,7 +182,7 @@ private Configuracion lectConf;
     public void initialize(URL url, ResourceBundle rb) {
         
         lectConf= new Configuracion();
-        lectConf.cargarConfiguracion("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\TFGv0\\config/configActual.xml");
+        lectConf.cargarConfiguracion("./config/configActual.xml");
         FicheroXML ejemplo = new FicheroXML();
         //ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\TFGv0\\traductores\\descend2.xml");      
         mT=inicializarModificaciones();
@@ -190,8 +220,10 @@ private Configuracion lectConf;
         
         Object accSem=arbolEjemplo.insertarElemento(new Simbolo("print(valor)",true), incCadena+100, posRegla,40,40, "ACCIONES");
         mT.setAccSem(accSem);
-        Component comp =arbolEjemplo.getGraphComponent();
+        //Component comp =arbolEjemplo.getGraphComponent();
         place(treeNode);
+        
+        //change the configuration using the ComboBox
         ObservableList<Integer> optionsSizeLetraArbol = FXCollections.observableArrayList( 8,10,13,15,18,20);       
         sizeFuenteArbol.setItems(optionsSizeLetraArbol);
         sizeFuenteArbol.setValue(lectConf.getLetraArbol());
@@ -462,9 +494,15 @@ private Configuracion lectConf;
         stylesheet.putCellStyle("MODACCIONES", style6);
 
     }
+ /**
+  * Recive a color in format Swing and transform it into a format javaFX
+  * @param color
+  * String with the color in format Swing
+  * @return 
+  * Color in format javafx.scene.paint.Color
+  */
  public javafx.scene.paint.Color newColorFX(String color){
-     int col=Integer.parseInt(color,16);
-             //Integer.parseInt(color);
+    int col=Integer.parseInt(color,16);
     Color color1=new Color(col);
     double red=color1.getRed()/255.0;
     double green=color1.getGreen()/255.0;
@@ -472,6 +510,13 @@ private Configuracion lectConf;
     double opacity=color1.getAlpha()/255.0;
     return new javafx.scene.paint.Color(red, green, blue, opacity);
  }
+ /**
+  * recive the color of a ColorPicker and transform it in a color for swing
+  * @param color
+  * Color in format javafx.scene.paint.Color
+  * @return 
+  * Color in format Swing
+  */
  public Color newColorSw(javafx.scene.paint.Color color){
  
     float red=(float)(color.getRed());
@@ -480,4 +525,19 @@ private Configuracion lectConf;
    // float alpha=(float) (color.getOpacity()*255);
     return new Color(red, green, blue);
  }
+ /**
+  * recive the color of a ColorPicker and transform it in a color for swing
+  * @param color
+  * Color in format javafx.scene.paint.Color
+  * @return 
+  * Color in format Swing
+  */
+// public String colorToSave(javafx.scene.paint.Color color){
+//    color.
+//    float red=(float)(color.getRed())*255;
+//    float green=(float) (color.getGreen())*255;
+//    float blue=(float) (color.getBlue())*255;
+//   // float alpha=(float) (color.getOpacity()*255);
+//    return ;
+// }
         }

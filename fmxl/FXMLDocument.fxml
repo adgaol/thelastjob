@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
@@ -19,10 +20,28 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Nuevo" />
-                    <MenuItem mnemonicParsing="false" text="Cargar" />
-                        <MenuItem mnemonicParsing="false" text="Guardar" />
+                        <Menu mnemonicParsing="false" text="Nuevo">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Traductor" />
+                              <MenuItem mnemonicParsing="false" text="Cadena" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Cargar">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Traductor" />
+                          <MenuItem mnemonicParsing="false" text="Cadena" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Guardar">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Traductor" />
+                              <MenuItem mnemonicParsing="false" text="Cadena" />
+                          </items>
+                        </Menu>
                   </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ejecución">
                   <items>
@@ -35,7 +54,7 @@
                 <Menu mnemonicParsing="false" text="Configuración">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleOpenConfiguration" text="Editar configuración" />
-                        <MenuItem mnemonicParsing="false" text="Restablecer configuración por defecto" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleRestaurarConfig" text="Restablecer configuración por defecto" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Ayuda">

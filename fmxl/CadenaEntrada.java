@@ -532,5 +532,13 @@ public class CadenaEntrada {
            auxLista=Arrays.asList(cadenaPend[1].split(" "));
            construirCadena(auxLista);
       }
-    
+    /**
+        * rebuild the string
+        */
+      public void reconstruirCadena(List<String> cadena){
+           List<String> auxLista;
+           String[] cadenaPend=cadena.get(0).split("pend");//eliminamos pend de la cadena
+           auxLista=Arrays.asList(cadenaPend[1].split(" "));
+           construirCadena(auxLista);
+      }
 }
