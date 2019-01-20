@@ -67,13 +67,13 @@
             </MenuBar>
             <SplitPane dividerPositions="0.7123745819397993" layoutX="2.0" layoutY="22.0" prefHeight="578.0" prefWidth="980.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#handleMouseAction" onSwipeLeft="#handleButtonAction" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#handleMouseAction" prefHeight="160.0" prefWidth="100.0">
                      <children>
                         <SwingNode fx:id="graphNode" layoutX="211.0" layoutY="172.0" onMouseClicked="#handleMouseAction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <Label layoutX="31.0" layoutY="537.0" prefHeight="25.0" prefWidth="44.0" text="Zoom" />
-                        <Slider layoutX="169.0" layoutY="531.0" majorTickUnit="90.0" max="300.0" min="10.0" minorTickCount="10" prefHeight="38.0" prefWidth="269.0" showTickLabels="true" showTickMarks="true" />
-                        <Button layoutX="491.0" layoutY="538.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="-" />
-                        <Button layoutX="602.0" layoutY="538.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="+" />
+                        <Slider fx:id="sliderZoom" layoutX="169.0" layoutY="531.0" majorTickUnit="50.0" max="300.0" min="50.0" minorTickCount="10" prefHeight="38.0" prefWidth="269.0" showTickLabels="true" showTickMarks="true" />
+                        <Button fx:id="menosZoom" layoutX="491.0" layoutY="538.0" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="-" />
+                        <Button fx:id="masZoom" layoutX="602.0" layoutY="538.0" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="+" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

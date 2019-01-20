@@ -8,15 +8,15 @@ package fmxl;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 import java.awt.Color;
-import java.awt.Component;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
+
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,22 +24,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import static javafx.scene.paint.Color.color;
-import static javafx.scene.paint.Color.color;
+
 import javafx.stage.Stage;
 import javax.swing.SwingUtilities;
 
@@ -98,7 +90,7 @@ private Configuracion lectConf;
     public void handleAcept(ActionEvent event) throws IOException {
         
         Configuracion conf = new Configuracion();
-        conf.guardarConfiguracion(".//config//configActual.xml",mT.getSizeLetraArbol(),mT.getSizeLetraTraductor(),mT.getSizeCadena(),Integer.toString(mT.getColorTerminales().getRGB(),16),Integer.toString(mT.getColornTerminales().getRGB(),16),Integer.toString(mT.getColorLetraTerminales().getRGB(),16),Integer.toString(mT.getColorLetranTerminales().getRGB(),16),Integer.toString(mT.getColorCadenaLeido().getRGB(),16),Integer.toString(mT.getColorCadenaPendiente().getRGB(),16),Integer.toString(mT.getColorAccSem().getRGB(),16),mT.getTipoLetra(),mT.getSizeAcciones(),50);
+        conf.guardarConfiguracion(".//config//configActual.xml",mT.getSizeLetraArbol(),mT.getSizeLetraTraductor(),mT.getSizeCadena(),Integer.toString(mT.getColorTerminales().getRGB(),16),Integer.toString(mT.getColornTerminales().getRGB(),16),Integer.toString(mT.getColorLetraTerminales().getRGB(),16),Integer.toString(mT.getColorLetranTerminales().getRGB(),16),Integer.toString(mT.getColorCadenaLeido().getRGB(),16),Integer.toString(mT.getColorCadenaPendiente().getRGB(),16),Integer.toString(mT.getColorAccSem().getRGB(),16),mT.getTipoLetra(),mT.getSizeAcciones(),conf.getZoom());
         // get a handle to the stage
         Stage stage = (Stage) aceptButton.getScene().getWindow();
         // do what you have to do

@@ -18,6 +18,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,22 +28,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.swing.SwingUtilities;
 
+
 /**
  *
  * @author adgao
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController implements  Initializable {
     
 //    @FXML
 //    private Label label;
@@ -55,7 +58,11 @@ public class FXMLDocumentController implements Initializable {
    private SwingNode grammarNode;
    @FXML
    private SwingNode stringNode;
-
+   @FXML
+   private Slider sliderZoom;
+   @FXML
+   private Button masZoom;
+   
     int contador=0;
     private List<Informacion> stepsList;
     private ArrayList<Object> treeElements;
@@ -87,6 +94,11 @@ public class FXMLDocumentController implements Initializable {
     private List<List<Object>> listaReglas= new ArrayList<>();//list of inserted rules in translator
     private int numNodos;
     private Configuracion lectConf;
+    private double zoomInicial;
+    private double separacionNodosDefecto=75;
+    private int sizeLetra;
+    private double posXRaizDefecto=300;
+    private double separacionTerminalesDefecto=85;
      @FXML
         public void handleOpenConfiguration(ActionEvent event) throws IOException {
             Parent root = FXMLLoader.load(getClass().getResource("FXMLDocumentConfig.fxml"));
@@ -104,6 +116,7 @@ public class FXMLDocumentController implements Initializable {
             //newWindow.setY(primaryStage.getY() + 100);
         configuration.show();
         configuration.setOnCloseRequest(new EventHandler<WindowEvent>() {
+          @Override
           public void handle(WindowEvent we) {
             int cont=contador;
             lectConf.cargarConfiguracion("./config/configActual.xml");
@@ -149,9 +162,19 @@ public class FXMLDocumentController implements Initializable {
 //        label.setText("Hello World!");
     }
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-//        label.setText("Hello World!");
+    private void handleMasMenosZoom(ActionEvent event) {
+        if(event.getSource().equals(masZoom)){
+            zoom((int)(sliderZoom.getValue()+10));
+            sliderZoom.setValue((int)(sliderZoom.getValue()+10));
+        }
+        else{
+            zoom((int)(sliderZoom.getValue()-10));
+            sliderZoom.setValue((int)(sliderZoom.getValue()-10));
+        }
+        lectConf.guardarConfiguracion(".//config//configActual.xml",
+                         lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),
+                         lectConf.getColorTerminal(),lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),lectConf.getZoom());
+           
     }
     @FXML
     private void handleAnteriorAction(ActionEvent event) {
@@ -266,16 +289,21 @@ public class FXMLDocumentController implements Initializable {
      // Do whatever you want
             System.out.println("funchiona");
         });
+       
        numNodos= ejemplo.getNumNodos();
-//        graphPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//
-//            @Override
-//            public void handle(KeyEvent event) {
-//                if (event.getCode() == KeyCode.LEFT) {
-//                    System.out.println("Enter Pressed");
-//                }
-//            }
-//        });
+       zoomInicial=lectConf.getZoom();
+       sizeLetra=lectConf.getLetraArbol();
+       sliderZoom.valueChangingProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.println(sliderZoom.getValue());
+//                zoomInicial=(int) sliderZoom.getValue()/100;
+               zoom((int)sliderZoom.getValue());
+            }
+           
+       });
+System.out.println(sliderZoom.getValue());
+sliderZoom.setValue(100);
     } 
     /**
      * place the tree in the swing node
@@ -882,4 +910,51 @@ public class FXMLDocumentController implements Initializable {
 //        v.setApp(app);
 //        v.generarVisualizador();
 //    }
+     /**
+     * apply the zoom
+     */
+    public void zoom(int newZoomS){
+        lectConf.setZoom(newZoomS);
+        
+        Double newZoom=(newZoomS*1.0)/100;
+        
+        int contAct=this.contador;
+        irInicio();
+//        int vInicial=1;
+//        int valorIni=zoomInicial-vInicial;//valor de la diferecia entre el defecto y la pos con signo
+//        double valor=(Math.abs(valorIni)+1);       
+//            if(valor==1 || valor==2)
+//             posInicial=0;
+//            else
+//                posInicial=posInicialDefecto;
+//       
+//            valor=valor/8;
+//            
+//        
+        tree.setAltoNodo((int) (Grafo.altoNodoDefecto*newZoom));
+        tree.setAnchoNodo((int) (Grafo.anchoNodoDefecto*newZoom));
+        tree.setAltoPila((int) (Grafo.altoPilaDefecto*newZoom));
+        tree.setAnchoPila((int) (Grafo.anchoPilaDefecto*newZoom));
+        tree.setEspacioPila((int) (Grafo.espacioPilaDefecto*newZoom));//espacio entre elementos pila        i
+        this.separacionNodos=(int) (this.separacionNodosDefecto*newZoom);
+        if(separacionNodos<5)
+            separacionNodos=5;
+        
+        this.separacionTerminales=(int) (this.separacionTerminalesDefecto*newZoom);
+        if(separacionTerminales<5)
+            separacionTerminales=5;
+//        if(newZoom>=1)
+//            sizeLetra= (int) ((int) 10*newZoom);
+//        else
+//            this.sizeLetra= (int) ((int) 15*newZoom);
+           
+        lectConf.setLetraArbol((int)(sizeLetra*newZoom));
+        actualizarEstilos(tree.getGraph());
+        this.posXRaiz=(int) (this.posXRaizDefecto*newZoom); 
+        irPaso(0, contAct);
+        //menu.getBarraMenu().requestFocusInWindow();
+       
+        zoomInicial=newZoom;  
+        
+    }
         }
