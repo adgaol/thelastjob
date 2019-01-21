@@ -9,6 +9,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,12 +19,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.scene.control.Label;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
-import javafx.scene.layout.HBox;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,11 +30,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -64,6 +66,10 @@ public class FXMLDocumentController implements  Initializable {
    private Slider sliderZoom;
    @FXML
    private Button masZoom;
+   @FXML
+   private MenuItem cargarTraductor;
+   @FXML
+   private MenuItem cargarCadena;
    
     int contador=0;
     private List<Informacion> stepsList;
@@ -91,7 +97,7 @@ public class FXMLDocumentController implements  Initializable {
     private List<String> cadena;
     private Grafo gramatica;
     private List<Regla> miGramatica;//conjunto de reglas de la gramatica
-    public static final int sepRegla=40;//separacion entre las reglas
+    public static  int sepRegla=40;//separacion entre las reglas
     private Map<String,Regla> mapaGramatica = new HashMap<>();//match the id of the xml with the rule
     private List<List<Object>> listaReglas= new ArrayList<>();//list of inserted rules in translator
     private int numNodos;
@@ -254,64 +260,75 @@ public class FXMLDocumentController implements  Initializable {
 //                break;
 //        }  
     }
-    
+    @FXML
+    private void handleCargarArchivo(ActionEvent event) {
+        if(event.getSource().equals(cargarTraductor)){
+                     
+                     elegirArchivo("xml");
+                 }else{
+                     
+                     elegirArchivo("txt");
+                 }
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // load of configuration and translate
-        lectConf= new Configuracion();
-        //lectConf.cargarConfiguracion("C:\\Users\\adgao\\Documents\\NetBeansProjects\\fmxl\\src\\fmxl/configActual.xml");
-        lectConf.cargarConfiguracion("./config/configActual.xml");
-        ejemplo = new FicheroXML();
-        ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\TFGv0\\traductores\\descend2.xml");      
-        //grammar part
-        this.miGramatica=ejemplo.getListaGramatica();
-        this.construirGramatica(lectConf);
-        this.colocarGramatica();
-        placeGrammar(grammarNode);
-        //tree part
-        this.inicializarArbol(lectConf);
-        stepsList=ejemplo.getListaPasos();
-        relationIdSimbol=ejemplo.getMapa();
-        cadena=ejemplo.getCadena();
-        placeTree(graphNode);
-        //string part
-        entrada= new CadenaEntrada(lectConf);
-
-        List<String> auxLista;
-        String[] cadenaPend=cadena.get(0).split("pend");//eliminamos pend de la cadena
-        auxLista=Arrays.asList(cadenaPend[1].split(" "));
-
-        entrada.construirCadena(auxLista);
-        entrada.activarListener(stepsList,contador,this);
-
-
-        this.colocarEntrada();
-        placeString(stringNode);
-        
-        graphPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-     // Do whatever you want
-            System.out.println("funchiona");
-        });
-       
-       numNodos= ejemplo.getNumNodos();
-       zoomInicial=lectConf.getZoom();
-       sizeLetra=lectConf.getLetraArbol();
-       sliderZoom.valueChangingProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                System.out.println(sliderZoom.getValue());
-//                zoomInicial=(int) sliderZoom.getValue()/100;
-               zoom((int)sliderZoom.getValue());
-               lectConf.guardarConfiguracion(".//config//configActual.xml",
-                         lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),
-                         lectConf.getColorTerminal(),lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),lectConf.getZoom());
-        
-            }
-           
-       });
-System.out.println(sliderZoom.getValue());
-sliderZoom.setValue(lectConf.getZoom());
-        zoom(lectConf.getZoom());
+//        // load of configuration and translate
+//        lectConf= new Configuracion();
+//        //lectConf.cargarConfiguracion("C:\\Users\\adgao\\Documents\\NetBeansProjects\\fmxl\\src\\fmxl/configActual.xml");
+//        lectConf.cargarConfiguracion("./config/configActual.xml");
+//        ejemplo = new FicheroXML();
+//        ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\TFGv0\\traductores\\descend2.xml");      
+//        //grammar part
+//        this.miGramatica=ejemplo.getListaGramatica();
+//        this.construirGramatica(lectConf);
+//        this.colocarGramatica();
+//        placeGrammar(grammarNode);
+//        //tree part
+//        this.inicializarArbol(lectConf);
+//        stepsList=ejemplo.getListaPasos();
+//        relationIdSimbol=ejemplo.getMapa();
+//        cadena=ejemplo.getCadena();
+//        placeTree(graphNode);
+//        //string part
+//        entrada= new CadenaEntrada(lectConf);
+//
+//        List<String> auxLista;
+//        String[] cadenaPend=cadena.get(0).split("pend");//eliminamos pend de la cadena
+//        auxLista=Arrays.asList(cadenaPend[1].split(" "));
+//
+//        entrada.construirCadena(auxLista);
+//        entrada.activarListener(stepsList,contador,this);
+//
+//
+//        this.colocarEntrada();
+//        placeString(stringNode);
+//        
+//        graphPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+//     // Do whatever you want
+//            System.out.println("funchiona");
+//        });
+//       
+//       numNodos= ejemplo.getNumNodos();
+//       zoomInicial=lectConf.getZoom();
+//       sizeLetra=lectConf.getLetraArbol();
+//       sliderZoom.valueChangingProperty().addListener(new ChangeListener<Boolean>(){
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//                System.out.println(sliderZoom.getValue());
+////                zoomInicial=(int) sliderZoom.getValue()/100;
+//               zoom((int)sliderZoom.getValue());
+//               lectConf.guardarConfiguracion(".//config//configActual.xml",
+//                         lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),
+//                         lectConf.getColorTerminal(),lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),lectConf.getZoom());
+//        
+//            }
+//           
+//       });
+//System.out.println(sliderZoom.getValue());
+//sliderZoom.setValue(lectConf.getZoom());
+//        zoom(lectConf.getZoom());
+        elegirArchivo("xml");
     } 
     /**
      * place the tree in the swing node
@@ -965,4 +982,142 @@ sliderZoom.setValue(lectConf.getZoom());
         zoomInicial=newZoom;  
         
     }
+  /**
+     * choose the example traductor
+     * @param app
+     * app
+     * @param tipo 
+     * type of file
+     */
+    public  void elegirArchivo(String tipo){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        if(tipo.equals("xml")){
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("xml", "*.xml"));
+        File file=fileChooser.showOpenDialog(Fmxl.getStage());
+        String path=file.getAbsolutePath();
+        //
+        contador=0;
+        stepsList=new ArrayList<>();
+        treeElements=new ArrayList<>();
+        tree=null;
+        relationIdSimbol=null ;
+        ejemplo=null;
+        separacionNodos=75;
+        posInicialDefecto=80;
+        posInicial=posInicialDefecto;
+        primerElem= true;
+        posicionTerm=0;
+        separacionTerminales=85;
+        listaPosiciones = new ArrayList<>();
+        rectangAtribAcc = new HashMap<>();
+        rectangulos= new ArrayList<>();
+        rectangleList = new ArrayList<>();
+        hijos = new ArrayList<>();
+        elemValor=new HashMap<>();//empareja el nodo con su valor (para tooltip)
+        posXRaiz=300;
+        padreRect= new HashMap<>();//map with the father of the rectangels
+    //private Map<Object,List<Object>> rectangPila= new HashMap<>();//para los traductores descendentes emparejamos los elementos q están en la pila con su rectángulo correspondiente
+        valorToolTipAntiguo= new HashMap<>();//relation the symbol with her past tooltip
+        entrada=null;
+        cadena=null;
+        gramatica=null;
+        miGramatica=null;//conjunto de reglas de la gramatica
+        sepRegla=40;//separacion entre las reglas
+        mapaGramatica = new HashMap<>();//match the id of the xml with the rule
+        listaReglas= new ArrayList<>();//list of inserted rules in translator
+        numNodos=0;
+        lectConf=null;
+        zoomInicial=0;
+        separacionNodosDefecto=75;
+        sizeLetra=0;
+        posXRaizDefecto=300;
+        separacionTerminalesDefecto=85;
+         // load of configuration and translate
+        lectConf= new Configuracion();
+        //lectConf.cargarConfiguracion("C:\\Users\\adgao\\Documents\\NetBeansProjects\\fmxl\\src\\fmxl/configActual.xml");
+        lectConf.cargarConfiguracion("./config/configActual.xml");
+        ejemplo = new FicheroXML();
+        ejemplo.cargarXml(path);      
+        //grammar part
+        this.miGramatica=ejemplo.getListaGramatica();
+        this.construirGramatica(lectConf);
+        this.colocarGramatica();
+        placeGrammar(grammarNode);
+        //tree part
+        this.inicializarArbol(lectConf);
+        stepsList=ejemplo.getListaPasos();
+        relationIdSimbol=ejemplo.getMapa();
+        cadena=ejemplo.getCadena();
+        placeTree(graphNode);
+        //string part
+        entrada= new CadenaEntrada(lectConf);
+
+        List<String> auxLista;
+        String[] cadenaPend=cadena.get(0).split("pend");//eliminamos pend de la cadena
+        auxLista=Arrays.asList(cadenaPend[1].split(" "));
+
+        entrada.construirCadena(auxLista);
+        entrada.activarListener(stepsList,contador,this);
+
+
+        this.colocarEntrada();
+        placeString(stringNode);
+        
+        graphPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+     // Do whatever you want
+            System.out.println("funchiona");
+        });
+       
+       numNodos= ejemplo.getNumNodos();
+       zoomInicial=lectConf.getZoom();
+       sizeLetra=lectConf.getLetraArbol();
+       sliderZoom.valueChangingProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+               System.out.println(sliderZoom.getValue());
+//                zoomInicial=(int) sliderZoom.getValue()/100;
+               zoom((int)sliderZoom.getValue());
+               lectConf.guardarConfiguracion(".//config//configActual.xml",
+                         lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),
+                         lectConf.getColorTerminal(),lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),lectConf.getZoom());
+        
+            }
+           
+       });
+        System.out.println(sliderZoom.getValue());
+        sliderZoom.setValue(lectConf.getZoom());
+        zoom(lectConf.getZoom());
+        } 
+    }
+//        // muestra el cuadro de diálogo de archivos, para que el usuario pueda elegir el archivo a abrir
+//                JFileChooser selectorArchivos = new JFileChooser();
+//                selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+//                //Cambiar al directorio Windows
+//                //selectorArchivos.setCurrentDirectory(new File("D:\\datos\\urjc\\4\\TFG\\TFGv0\\src"));
+//                selectorArchivos.setCurrentDirectory(new File("./traductores"));
+//                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheros "+ tipo, tipo);
+//                selectorArchivos.setFileFilter(filter);
+//
+//                // indica cual fue la accion de usuario sobre el jfilechooser
+//                int respuesta = selectorArchivos.showOpenDialog(app);
+//                
+//                if (respuesta == JFileChooser.APPROVE_OPTION) {
+//                    //Crear un objeto File con el archivo elegido
+//                    File archivoElegido = selectorArchivos.getSelectedFile();
+//                    //Mostrar el nombre del archvivo en un campo de texto                   
+//                    String ruta =  archivoElegido.getAbsolutePath();
+//                     System.out.println(ruta);
+//                     //Al elegir fichero cerrar ventana y volver a abrir?
+//                     //app.hide();
+//                    
+//                    ClaseMain.inicio(ruta,app.getcTerminales(),app.getcNoTerminales(),
+//                            app.getLetraTerminales(),app.getLetraNoTerminales(),app.getColorCadLeido(),
+//                            app.getColorCadPendiente(),app.getSizeLetra(),app.getSizeLetraTraductor(),
+//                            app.getSizeCadena(),app.getColorAccSem(),app.getTipoLetra(),app.getSizeAcciones(),app.getZoomInicial());
+//                     app.setVisible(false);
+//                     app.dispose();
+//                    
+//                }
+//    }   
         }
