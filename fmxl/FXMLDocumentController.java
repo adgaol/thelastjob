@@ -18,10 +18,12 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.scene.control.Label;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.HBox;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -115,7 +117,7 @@ public class FXMLDocumentController implements  Initializable {
             //newWindow.setX(primaryStage.getX() + 200);
             //newWindow.setY(primaryStage.getY() + 100);
         configuration.show();
-        configuration.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        configuration.setOnHiding(new EventHandler<WindowEvent>() {
           @Override
           public void handle(WindowEvent we) {
             int cont=contador;
@@ -149,15 +151,16 @@ public class FXMLDocumentController implements  Initializable {
             actualizarEstilos(tree.getGraph());
             actualizarEstilos(gramatica.getGraph());
             actualizarEstilos(entrada.getGraph());
-       
+            zoom(lectConf.getZoom());
          
             reconstruirGramatica();
             entrada.reconstruirCadena(cadena);
        
             irPaso(0,cont);
-           Configuracion conf = new Configuracion();
-        conf.guardarConfiguracion(".//config//configActual.xml",lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),lectConf.getColorTerminal()/*Integer.toString(mT.getColorTerminales().getRGB(),16)*/,lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),50);
-        // get a handle to the stage
+            Configuracion conf = new Configuracion();
+            conf.guardarConfiguracion(".//config//configActual.xml",lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),lectConf.getColorTerminal()/*Integer.toString(mT.getColorTerminales().getRGB(),16)*/,lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),lectConf.getZoom());
+            sliderZoom.setValue(lectConf.getZoom());
+// get a handle to the stage
             
 //        label.setText("Hello World!");
     }
@@ -299,11 +302,16 @@ public class FXMLDocumentController implements  Initializable {
                 System.out.println(sliderZoom.getValue());
 //                zoomInicial=(int) sliderZoom.getValue()/100;
                zoom((int)sliderZoom.getValue());
+               lectConf.guardarConfiguracion(".//config//configActual.xml",
+                         lectConf.getLetraArbol(),lectConf.getLetraTraductor(),lectConf.getLetraCadena(),
+                         lectConf.getColorTerminal(),lectConf.getColorNoTerminal(),lectConf.getLetraTerminal(),lectConf.getLetraNoTerminal(),lectConf.getColorLeido(),lectConf.getColorPend(),lectConf.getColorAccSem(),lectConf.getTipoLetra(),lectConf.getSizeAcciones(),lectConf.getZoom());
+        
             }
            
        });
 System.out.println(sliderZoom.getValue());
-sliderZoom.setValue(100);
+sliderZoom.setValue(lectConf.getZoom());
+        zoom(lectConf.getZoom());
     } 
     /**
      * place the tree in the swing node
